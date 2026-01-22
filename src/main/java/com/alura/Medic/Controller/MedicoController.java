@@ -5,6 +5,7 @@ import com.alura.Medic.model.DTOMedic;
 import com.alura.Medic.model.Medico;
 import com.alura.Medic.model.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
-
+    @Transactional
     @PostMapping
     public void registrar(@RequestBody DTOMedic datos){
         repository.save(new Medico(datos));
