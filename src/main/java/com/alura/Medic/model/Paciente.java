@@ -2,45 +2,38 @@ package com.alura.Medic.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of="id")
 
+@Entity(name = "Paciente")
+@Table(name= "pacientes")
 
-@Table(name="medicos")
-@Entity(name="Medico")
-public class Medico {
+public class Paciente {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String documento;
-    private String email;
 
-    @Enumerated(EnumType.STRING)
-    private Especialidad especialidad;
+    private String nombre;
+    private String email;
+    private String telefono;
+    private String documento;
 
     @Embedded
     private Direccion direccion;
 
-    public Medico(DTOMedic datos) {
+    public Paciente(DTOPaciente datos) {
         this.id = null;
         this.nombre = datos.nombre();
-        this.documento = datos.documento();
         this.email = datos.email();
-        this.especialidad = datos.especialidad();
+        this.telefono = datos.telefono();
+        this.documento = datos.documento();
         this.direccion = new Direccion(datos.direccion());
-    }
-
-    public void actualizarInformacion(@Valid DTOActualizacionMedicos datos) {
-        this.nombre = datos.nombre();
     }
 }

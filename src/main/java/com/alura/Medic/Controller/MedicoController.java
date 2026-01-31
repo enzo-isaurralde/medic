@@ -1,16 +1,16 @@
 package com.alura.Medic.Controller;
 
 
-import com.alura.Medic.model.DTOMedic;
-import com.alura.Medic.model.Medico;
-import com.alura.Medic.model.MedicoRepository;
+import com.alura.Medic.model.*;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 
 @RestController
@@ -22,9 +22,24 @@ public class MedicoController {
 
     @Transactional
     @PostMapping
-    public void registrar(@RequestBody DTOMedic datos){
+    public void registrar(@RequestBody @Valid DTOMedic datos){
         repository.save(new Medico(datos));
 
     }
+    @GetMapping
+    public Page<DatosListaMedico> listar(@PageableDefault(size=10,sort={"nombre"}) Pageable paginacion) {
+        return repository.findAll(paginacion)
+                .map(DatosListaMedico::new);
 
+    }
+
+    @Transactional
+    @PutMapping
+    public void actualizar(@RequestBody @Valid DTOActualizacionMedicos datos){
+        var medico = repository.getReferenceById(datos.id());
+        medico.actualizarInformacion(datos)
+
+
+    }
 }
+
