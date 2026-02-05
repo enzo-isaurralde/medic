@@ -1,0 +1,1 @@
+ALTER TABLE medicos ADD COLUMN numero VARCHAR(20);

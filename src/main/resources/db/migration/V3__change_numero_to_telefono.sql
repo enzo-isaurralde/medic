@@ -1,0 +1,2 @@
+ALTER TABLE medicos
+CHANGE COLUMN numero telefono VARCHAR(20) NOT NULL;
